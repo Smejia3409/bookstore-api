@@ -20,12 +20,13 @@ model Author {
 }
 
 model Book {
-  id         Int          @id @default(autoincrement())
-  created    DateTime     @default(now())
-  updated    DateTime     @updatedAt
-  title      String
-  author     Author       @relation(fields: [authorId], references: [id])
-  authorId   Int
+  id       Int      @id @default(autoincrement())
+  created  DateTime @default(now())
+  updated  DateTime @updatedAt
+  title    String
+  author   Author   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId Int
+
   Categories Categories[]
 }
 
