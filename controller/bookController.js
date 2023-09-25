@@ -77,15 +77,16 @@ const deleteBook = async (req, res) => {
       },
     });
 
-    if (book) {
+    if (book != 0) {
       res.status(200).json(book);
     } else {
       res.status(400).json("Book not found");
+      throw new Error("Book not found");
     }
   } catch (error) {
     console.log("error ran");
     console.log(error);
-    res.status(400).json(error);
+    res.status(400).json(error.meta["cause"]);
   }
 };
 
