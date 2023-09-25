@@ -1,10 +1,10 @@
 const db = require("../config/db");
 
 const getAuthor = async (req, res) => {
-  const { firstName, lastName } = req.body;
+  const { id } = req.body;
 
   try {
-    if (!firstName || !lastName) {
+    if (!id) {
       res.status(400).json("Please fill in all fields");
       throw new Error("Please fill in all fields");
     }
@@ -12,17 +12,22 @@ const getAuthor = async (req, res) => {
     //checks if author already exist
     const checkForAuthor = await db.author.findUnique({
       where: {
-        firstName: firstName,
-        lastName: lastName,
+        id: parseInt(id),
+      },
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
       },
     });
 
     if (checkForAuthor) {
-      res.json(200).json(checkForAuthor);
+      res.status(200).json(checkForAuthor);
     } else {
-      res.json(400).json("Author doesnt exist");
+      res.status(400).json("Author doesnt exist");
     }
   } catch (error) {
+    console.log(error);
     res.status(400).json(error);
   }
 };
