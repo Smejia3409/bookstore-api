@@ -2,6 +2,7 @@ const express = require("express");
 
 const authorRoutes = require("./routes/authorRoutes");
 const bookRouter = require("./routes/bookRoutes");
+const categoriesRouter = require("./routes/categoryRoutes");
 
 const port = 5000;
 
@@ -12,6 +13,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/author", authorRoutes);
 app.use("/book", bookRouter);
+app.use("/category", categoriesRouter);
 
 app.listen(port, () => {
   console.log(`Server started in port: ${port}`);
