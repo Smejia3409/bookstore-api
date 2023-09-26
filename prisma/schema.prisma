@@ -38,10 +38,11 @@ model Categories {
   bookId   Int
 }
 
-// model User{
-//     id       Int      @id @default(autoincrement())
-//       created  DateTime @default(now())
-//   updated  DateTime @updatedAt
-//   firstName String
-//   email String @unique
-// }
+model User {
+  id       Int      @id @default(autoincrement())
+  created  DateTime @default(now())
+  updated  DateTime @updatedAt
+  name     String
+  email    String   @unique
+  password String
+}
