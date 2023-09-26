@@ -7,10 +7,11 @@ const {
   getBook,
   deleteBook,
 } = require("../controller/bookController");
+const authMiddleware = require("../middleware/authMiddleware");
 
-router.post("/createBook", createBook);
-router.get("/getBooks", getBooks);
-router.post("/getBook", getBook);
-router.delete("/deleteBook/:id", deleteBook);
+router.post("/createBook", authMiddleware, createBook);
+router.get("/getBooks", authMiddleware, getBooks);
+router.post("/getBook", authMiddleware, getBook);
+router.delete("/deleteBook/:id", authMiddleware, deleteBook);
 
 module.exports = router;

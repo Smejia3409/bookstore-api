@@ -6,9 +6,10 @@ const {
   getCategory,
   changeCategory,
 } = require("../controller/categoriesController");
+const authMiddleware = require("../middleware/authMiddleware");
 
 router.get("/listCategories", allCategories);
-router.post("/getCategory", getCategory);
-router.put("/changeCategory", changeCategory);
+router.post("/getCategory", authMiddleware, getCategory);
+router.put("/changeCategory", authMiddleware, changeCategory);
 
 module.exports = router;
