@@ -54,17 +54,16 @@ const createAuthor = async (req, res) => {
 
     if (!firstName || !lastName) {
       res.status(400).json("Please fill in all fields");
-      throw new Error("Please fill in all fields");
+    } else {
+      const author = await db.author.create({
+        data: {
+          firstName: firstName,
+          lastName: lastName,
+        },
+      });
+
+      res.status(200).json(author);
     }
-
-    const author = await db.author.create({
-      data: {
-        firstName: firstName,
-        lastName: lastName,
-      },
-    });
-
-    res.status(200).json(author);
   } catch (error) {
     res.status(400).json(error);
   }

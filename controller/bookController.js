@@ -35,7 +35,12 @@ const getBooks = async (req, res) => {
       select: {
         id: true,
         title: true,
-        author: true,
+        author: {
+          select: {
+            firstName: true,
+            lastName: true,
+          },
+        },
       },
     });
 
@@ -90,4 +95,75 @@ const deleteBook = async (req, res) => {
   }
 };
 
-module.exports = { createBook, getBooks, getBook, deleteBook };
+const booksByAuthor = async (req, res) => {
+  try {
+    const books = await db.book.findMany({
+      where: {
+        author: {
+          firstName: req.query.firstName,
+          lastName: req.query.lastName,
+        },
+      },
+    });
+
+    if (books) {
+      console.log(books);
+      res.status(200).json(books);
+    } else {
+      console.log("No results found");
+      res.status(400).json("No results found");
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json("Error");
+  }
+};
+
+const booksByCategory = async (req, res) => {
+  try {
+    const books = await db.book.findMany({
+      where: {
+        Categories: {
+          some: {
+            category: req.params.category,
+          },
+        },
+      },
+    });
+
+    if (books) {
+      res.status(200).json(books);
+    } else {
+      res.status(400).json("No results found");
+    }
+  } catch (error) {
+    res.status(400).json("Error");
+  }
+};
+
+const booksPagination = async (req, res) => {
+  try {
+    const books = await db.book.findMany({
+      skip: parseInt(req.query.skip),
+      take: parseInt(req.query.take),
+    });
+
+    if (books) {
+      res.status(200).json(books);
+    } else {
+      res.status(400).json("No results found");
+    }
+  } catch (error) {
+    res.status(400).json("Error");
+  }
+};
+
+module.exports = {
+  createBook,
+  getBooks,
+  getBook,
+  deleteBook,
+  booksByAuthor,
+  booksByCategory,
+  booksPagination,
+};

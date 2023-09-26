@@ -67,4 +67,27 @@ const changeCategory = async (req, res) => {
   }
 };
 
-module.exports = { allCategories, getCategory, changeCategory };
+const categoriesPagination = async (req, res) => {
+  try {
+    const category = await db.categories.findMany({
+      skip: parseInt(req.query.skip),
+      take: parseInt(req.query.take),
+    });
+
+    if (category) {
+      res.status(200).json(category);
+    } else {
+      res.status(400).json("No results found");
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json("Error");
+  }
+};
+
+module.exports = {
+  allCategories,
+  getCategory,
+  changeCategory,
+  categoriesPagination,
+};
